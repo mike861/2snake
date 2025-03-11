@@ -1,0 +1,108 @@
+#:kivy 2.2.1
+
+<SnakeGame>:
+    # Background for the entire window
+    canvas.before:
+        Color:
+            rgb: 0, 0, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+    # Game elements (snakes, food, etc) are drawn in Python code
+    
+    # Semi-transparent overlay for game over
+    canvas.after:
+        Color:
+            rgba: 0, 0, 0, 0.8 if self.game_over else 0
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    # Top bar with scores and time
+    BoxLayout:
+        id: top_bar
+        size_hint: 1, None
+        height: 60
+        pos_hint: {'top': 1}
+        padding: [20, 10]
+        spacing: 50
+        canvas.before:
+            Color:
+                rgba: 0.2, 0.2, 0.2, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        
+        Label:
+            id: p1_score
+            text: 'P1: ' + str(root.score1)
+            color: 0, 1, 0, 1  # Green
+            font_size: '24sp'
+            bold: True
+            size_hint_x: None
+            width: 150
+            
+        Label:
+            id: time_label
+            text: 'Time: ' + str(root.game_time) + 's'
+            color: 1, 1, 1, 1  # White
+            font_size: '24sp'
+            bold: True
+            size_hint_x: None
+            width: 200
+            
+        Label:
+            id: p2_score
+            text: 'P2: ' + str(root.score2)
+            color: 0, 0, 1, 1  # Blue
+            font_size: '24sp'
+            bold: True
+            size_hint_x: None
+            width: 150
+    
+    # Game over screen overlay
+    FloatLayout:
+        id: game_over_screen
+        opacity: 1 if root.game_over else 0
+        disabled: not root.game_over
+        
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.8, None
+            height: 300
+            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            spacing: 20
+            
+            Label:
+                id: game_over_label
+                text: root.game_over_text
+                font_size: '40sp'
+                bold: True
+                color: 1, 1, 1, 1
+                size_hint_y: None
+                height: 80
+                
+            Label:
+                id: final_scores
+                text: 'Final Scores - P1: ' + str(root.score1) + ', P2: ' + str(root.score2)
+                font_size: '28sp'
+                color: 1, 1, 1, 1
+                size_hint_y: None
+                height: 50
+                
+            Label:
+                id: final_time
+                text: 'Time: ' + str(root.game_time) + 's'
+                font_size: '28sp'
+                color: 1, 1, 1, 1
+                size_hint_y: None
+                height: 50
+                
+            Label:
+                id: restart_label
+                text: 'Press SPACEBAR or tap anywhere to restart'
+                font_size: '26sp'
+                color: 1, 0.8, 0.2, 1  # Gold color
+                size_hint_y: None
+                height: 60 
