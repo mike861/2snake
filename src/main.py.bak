@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Snake Game Main Entry - Supporting Single/Multi-player and Online Mode
+贪吃蛇游戏主入口 - 支持单机双人和在线对战模式
 """
 
 from kivy.app import App
@@ -14,7 +14,6 @@ from kivy.core.window import Window
 import os
 import sys
 import importlib.util
-import shutil
 
 # 检测文件是否存在
 def module_exists(module_path):
@@ -30,28 +29,25 @@ def import_module(module_name, module_path):
     spec.loader.exec_module(module)
     return module
 
-# 确保离线游戏模块存在
-offline_game_path = os.path.join(os.path.dirname(__file__), 'offline_game.py')
-if not module_exists(offline_game_path):
-    # 如果没有offline_game.py，使用原来的main.py.bak内容作为离线游戏
-    main_bak_path = os.path.join(os.path.dirname(__file__), 'main.py.bak')
-    if module_exists(main_bak_path):
-        # 复制main.py.bak到offline_game.py
-        shutil.copyfile(main_bak_path, offline_game_path)
-
-# 导入游戏模块
 # 本地游戏模块
 offline_game_module = None
-if module_exists(offline_game_path):
-    # 防止导入当前模块造成的递归问题
-    if os.path.basename(__file__) != 'offline_game.py':
-        offline_game_module = import_module('offline_game', offline_game_path)
+if module_exists(os.path.join(os.path.dirname(__file__), 'offline_game.py')):
+    offline_game_module = import_module('offline_game', os.path.join(os.path.dirname(__file__), 'offline_game.py'))
+else:
+    # 如果没有offline_game.py，使用原来的main.py内容作为离线游戏
+    if os.path.exists(os.path.join(os.path.dirname(__file__), 'main.py.bak')):
+        import shutil
+        # 复制main.py.bak到offline_game.py
+        shutil.copyfile(
+            os.path.join(os.path.dirname(__file__), 'main.py.bak'),
+            os.path.join(os.path.dirname(__file__), 'offline_game.py')
+        )
+        offline_game_module = import_module('offline_game', os.path.join(os.path.dirname(__file__), 'offline_game.py'))
 
 # 在线游戏模块
 online_game_module = None
-client_game_path = os.path.join(os.path.dirname(__file__), 'client_game.py')
-if module_exists(client_game_path):
-    online_game_module = import_module('client_game', client_game_path)
+if module_exists(os.path.join(os.path.dirname(__file__), 'client_game.py')):
+    online_game_module = import_module('client_game', os.path.join(os.path.dirname(__file__), 'client_game.py'))
 
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
@@ -62,7 +58,7 @@ class MenuScreen(Screen):
         
         # 标题
         title = Label(
-            text='Snake Game', 
+            text='贪吃蛇游戏', 
             font_size=36,
             size_hint_y=None, 
             height=100
@@ -72,7 +68,7 @@ class MenuScreen(Screen):
         # 创建按钮
         if offline_game_module:
             offline_btn = Button(
-                text='Local Two-Player Mode',
+                text='单机双人模式',
                 size_hint_y=None,
                 height=60,
                 font_size=24
@@ -82,7 +78,7 @@ class MenuScreen(Screen):
         
         if online_game_module:
             online_btn = Button(
-                text='Online Battle Mode',
+                text='在线对战模式',
                 size_hint_y=None,
                 height=60,
                 font_size=24
@@ -92,7 +88,7 @@ class MenuScreen(Screen):
         
         # 退出按钮
         exit_btn = Button(
-            text='Exit Game',
+            text='退出游戏',
             size_hint_y=None,
             height=60,
             font_size=24
@@ -117,7 +113,7 @@ class SnakeMenuApp(App):
     def build(self):
         # 设置窗口
         Window.size = (600, 400)
-        self.title = 'Snake Game Menu'
+        self.title = '贪吃蛇游戏选择器'
         
         # 创建屏幕管理器
         sm = ScreenManager()

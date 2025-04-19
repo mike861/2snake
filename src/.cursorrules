@@ -1,0 +1,58 @@
+- name: Python Development Best Practices
+  description: "AI 生成代码时应遵循这些 Python 开发的最佳实践，以确保代码质量和可维护性。"
+
+  rules:
+    - "项目结构应清晰，source 代码、tests、docs 和 config 目录分开。"
+    - "模块化设计，区分 models, services, controllers 和 utilities。"
+
+- name: Configuration Management
+  rules:
+    - "使用环境变量（environment variables）进行配置管理。"
+
+- name: Error Handling and Logging
+  rules:
+    - "实现健壮的错误处理和日志记录，包括上下文捕获（context capture）。"
+
+- name: Testing
+  rules:
+    - "使用 pytest 进行全面测试，不使用 unittest 模块。"
+    - "所有测试文件应存放在 ./tests 目录。"
+    - "所有测试应包含类型注解（typing annotations）和 docstrings。"
+    - "如果 `TYPE_CHECKING` 为 True，需导入 pytest 相关 fixtures。"
+    - "示例代码：
+      ```python
+      from _pytest.capture import CaptureFixture
+      from _pytest.fixtures import FixtureRequest
+      from _pytest.logging import LogCaptureFixture
+      from _pytest.monkeypatch import MonkeyPatch
+      from pytest_mock.plugin import MockerFixture
+      ```"
+
+- name: Documentation
+  rules:
+    - "所有代码需包含详细的 docstrings 和 README 文档。"
+    - "遵循 PEP 257 文档字符串规范。"
+
+- name: Dependency Management
+  rules:
+    - "使用 [uv](https://github.com/astral-sh/uv) 和 virtual environments 进行依赖管理。"
+
+- name: Code Style
+  rules:
+    - "确保代码风格一致，使用 Ruff 进行代码格式化和检查。"
+
+- name: CI/CD
+  rules:
+    - "应使用 GitHub Actions 或 GitLab CI 实现 CI/CD。"
+
+- name: AI-Friendly Coding Practices
+  rules:
+    - "代码应包含清晰的示例和解释，以优化 AI 辅助开发。"
+
+- name: Additional Rules
+  rules:
+    - "所有函数和类必须添加类型注解（typing annotations），必要时包含返回类型。"
+    - "所有 Python 函数和类必须包含描述性的 docstrings。"
+    - "如果需要，更新已有 docstrings。"
+    - "保留文件中的所有现有注释。"
+    - "在 `./tests` 或 `./src/goob_ai` 目录创建新文件时，确保存在 `__init__.py` 文件。"

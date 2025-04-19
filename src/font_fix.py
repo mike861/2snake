@@ -15,6 +15,11 @@ import os
 import sys
 import platform
 import subprocess
+import logging
+
+# 设置日志
+logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger('Snake.FontFix')
 
 # 常见的Mac系统字体
 MAC_SYSTEM_FONTS = [
@@ -259,10 +264,10 @@ class FontFixApp(App):
 from kivy.core.text import LabelBase
 try:
     # 使用可用字体: {font_to_use}
-    print(f"使用字体: {font_to_use}")
+    logger.warning(f"使用字体: {font_to_use}")
     # 不重置默认字体，直接使用系统字体
 except Exception as e:
-    print(f"字体设置失败: {{e}}")
+    logger.warning(f"字体设置失败: {{e}}")
 """
         
         # 添加文本渲染方法
@@ -288,7 +293,7 @@ except Exception as e:
                 return True
             return False
         except Exception as e:
-            print(f"文本渲染失败: {e}")
+            logger.warning(f"文本渲染失败: {e}")
             return False
 """
         
