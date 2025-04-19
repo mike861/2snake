@@ -1,0 +1,8 @@
+__pycache__/
+.specstory/
+venv/
+tmp/
+*.pyc
+*.log
+.DS_Store
+.cursorindexingignore
